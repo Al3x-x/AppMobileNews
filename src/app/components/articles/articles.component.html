@@ -1,0 +1,13 @@
+<ion-grid fixed> <!-- fixed es una propiedad de ionic que sirve para que el grid se mantenga fijo en la pantalla -->
+  <ion-row>
+    <ion-col *ngFor="let article of articles, let i = index"
+      size="12" size-md="4" size-lg="3" size-xs="12"> <!-- *ngFor es una directiva de angular que sirve para recorrer un arreglo y mostrar los elementos que contiene, en este caso se esta recorriendo el arreglo de articulos y se esta mostrando cada articulo en una columna de 12 en dispositivos pequenios, 4 en dispositivos medianos y 3 en dispositivos grandes -->
+    
+      <app-article
+        [article]="article"
+        [index]="i + 1"
+      ></app-article>
+
+    </ion-col>
+  </ion-row>
+</ion-grid>
