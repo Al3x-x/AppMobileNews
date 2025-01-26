@@ -1,17 +1,46 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" mode="ios" class="ion-no-border"> <!-- Sirve para que se mantenga la el mismo disenio tanto en IOS como en Android y quita el borde -->
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Chancho's News
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+
+  <ion-header collapse="condense" mode="ios" class="ion-no-border">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Chancho's News</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let article of articles, let i = index">
+
+        <ion-card>
+          <ion-card-subtitle class="ion-margin"> <!-- ion-margin es una clase de ionic que sirve para darle margen a los elementos -->
+            <span class="text-primary">{{ i + 1 }}. </span>
+            <span class="article-source-name">{{ article.source.name }}</span>
+          </ion-card-subtitle>
+
+          <ion-card-title class="ion-padding-horizontal ion-margin-bottom"> <!-- ion-padding-horizontal es una clase de ionic que sirve para darle padding horizontal a los elementos y el ion-margin-bottom le da un pequenio margen abajo -->
+            {{ article.title }}
+          </ion-card-title>
+
+          <ion-img 
+            *ngIf="article.urlToImage" 
+            [src]="article.urlToImage"> <!-- *ngIf es una directiva de angular que sirve para mostrar un elemento si se cumple una condicion, en este caso si el articulo tiene una imagen se va a visualizar o sino que no aparezca -->
+          </ion-img>
+
+          <ion-card-content 
+           *ngIf="article.description"> <!-- *ngIf es una directiva de angular que sirve para mostrar un elemento si se cumple una condicion, en este caso si el articulo tiene una descripcion se va a visualizar o sino que no aparezca -->
+            <p>{{ article.description }}</p> 
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

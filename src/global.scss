@@ -35,3 +35,13 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+
+/* Theme variables */
+.text-primary {
+  color: var(--ion-color-primary); /* colocamos esa variable para que tome el color de la variable que está en el archivo de variables.scss, con esto se está automatizando para que todas las ventanas tengan el mismo color*/
+}
+
+.article-source-name {
+  font-size: 12px; /* tamaño de la fuente */
+}
