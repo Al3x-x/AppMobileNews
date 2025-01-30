@@ -17,10 +17,23 @@ export class NewsService {
 
   getTopHeadlines():Observable<Article[]>{ // Cambiar el tipo de retorno a Observable<Article[]> para que el servicio retorne un arreglo de articles
 
-    return this.http.get<NewsResponse>('https://newsapi.org/v2/everything?q=tesla&from=2024-12-25&sortBy=publishedAt',{
+    return this.http.get<NewsResponse>('https://newsapi.org/v2/everything?domains=wsj.com',{
       params: { apiKey } // Pasar la apiKey como parámetro, antes teniamos la apiKey:apiKey pero para tener un código más limpio se puede dejar solo apiKey
     }).pipe(
       map( ({ articles }) => articles) // Utilizar el operador map para retornar solo el arreglo de articles
+    );
+
+  }
+
+  getTopHeadlinesByCategory( category: string ):Observable<Article[]>{ 
+    
+    return this.http.get<NewsResponse>('https://newsapi.org/v2/top-headlines',{
+      params: { 
+        apiKey,
+        category:category
+       } 
+    }).pipe(
+      map( ({ articles }) => articles) 
     );
 
   }
