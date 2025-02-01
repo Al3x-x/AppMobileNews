@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonInfiniteScroll } from '@ionic/angular';
+
 import { NewsService } from '../../services/news.service';
 import { Article } from '../../interfaces';
 
@@ -9,6 +11,9 @@ import { Article } from '../../interfaces';
   standalone: false,
 })
 export class Tab2Page implements OnInit {
+
+  @ViewChild(IonInfiniteScroll, {static: true})
+  infiniteScroll!: IonInfiniteScroll;
 
   public categories: string[] = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'];
   public selectedCategory: string = this.categories[0];
@@ -23,12 +28,31 @@ export class Tab2Page implements OnInit {
       })
   }
 
-  segmentChanged( event: any ) {
-    this.selectedCategory = event.detail.value;
+  segmentChanged( event: Event ) {
+    this.selectedCategory = (event as CustomEvent).detail.value;
     this.newsService.getTopHeadlinesByCategory( this.selectedCategory )
       .subscribe( articles => {
         this.articles = [ ...articles ]
       })
+  }
+//
+  loadData(){
+    this.newsService.getTopHeadlinesByCategory(this.selectedCategory, true )
+    .subscribe( articles => {
+
+        if (articles.length === this.articles.length){
+          this.infiniteScroll.disabled = true;
+          console.log(this.selectedCategory);
+          //event.target.disabled = true;
+          return;
+        }else{
+          this.infiniteScroll.disabled = false;
+        }
+
+        this.articles = articles;
+        this.infiniteScroll.complete();
+
+    })
   }
 
 }

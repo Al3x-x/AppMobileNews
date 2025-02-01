@@ -39,7 +39,7 @@ export class NewsService {
   getTopHeadlinesByCategory( category: string, loadMore: boolean = false ):Observable<Article[]>{ 
 
     if ( loadMore ) {
-      this.getArticlesByCategory( category );
+      return this.getArticlesByCategory( category );
     }
 
     if ( this.ArticlesByCategoryAndPage[ category ] ) {
