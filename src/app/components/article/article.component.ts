@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Article } from '../../interfaces';
 
 import { CommonModule } from '@angular/common';
-import { ActionSheetController, IonicModule } from '@ionic/angular';
+import { ActionSheetButton, ActionSheetController, IonicModule, Platform } from '@ionic/angular';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-article',
@@ -23,7 +24,9 @@ export class ArticleComponent {
 
   constructor( 
     private iab: InAppBrowser,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private socialSharing: SocialSharing,
+    private platform: Platform
   ) { }
 
   openArticle() {
@@ -35,27 +38,34 @@ export class ArticleComponent {
 
   async onOpenMenu() {
 
+    const normalBtns: ActionSheetButton[] = [
+      {
+        text: 'Favorito',
+        icon: 'heart-outline',
+        handler: () => this.onToggleFavorite()
+      },
+      {
+        text: 'Cancelar',
+        icon: 'close-outline',
+        role: 'cancel',
+        cssClass: 'secondary',
+      }
+    ];
+
+    const share: ActionSheetButton = {
+      text: 'Compartir',
+      icon: 'share-social',
+      handler: () => this.onShareArticle()
+    }
+
+    if ( this.platform.is('capacitor') ) {
+      normalBtns.unshift(share);
+    }
+
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Opciones',
-      buttons: [
-        {
-          text: 'Compartir',
-          icon: 'share-social',
-          handler: () => this.onShareArticle()
-        },
-        {
-          text: 'Favorito',
-          icon: 'heart-outline',
-          handler: () => this.onToggleFavorite()
-        },
-        {
-          text: 'Cancelar',
-          icon: 'close-outline',
-          role: 'cancel',
-          cssClass: 'secondary',
-        }
-      ] 
-    }); 
+      buttons: normalBtns 
+    });
 
     await actionSheet.present();
 
@@ -63,7 +73,14 @@ export class ArticleComponent {
 
   onShareArticle() {
 
-    console.log('Share article');
+    const { title, source, url } = this.article;
+
+    this.socialSharing.share(
+      title,
+      source.name,
+      '',
+      url
+    );
 
   }
 

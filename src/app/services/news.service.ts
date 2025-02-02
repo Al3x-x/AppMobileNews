@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 
 import { NewsResponse, Article, ArticlesByCategoryAndPage } from '../interfaces'; // Sirve para importar las interfaces creadas en el archivo index.ts
 import { Observable, of } from 'rxjs'; // Observable es una clase que permite trabajar con datos asíncronos
-import { map } from 'rxjs'; // map es un operador que permite transformar la data que se recibe
+import { map } from 'rxjs/operators'; // map es un operador que permite transformar la data que se recibe
 
 const apiKey = environment.apiKey; // Importar la apiKey del archivo environment.ts para no exponerla en el código
 const apiUrl = environment.apiUrl; // URL de la API de noticias
@@ -69,7 +69,7 @@ export class NewsService {
 
     return this.executeQuery<NewsResponse>(`/top-headlines?category=${ category }&page=${ page }`)
     .pipe(
-      map( ({ articles }) => {
+      map( ({ articles }: { articles: Article[] }) => {
 
         if ( articles.length === 0 ) return this.ArticlesByCategoryAndPage[ category ].articles;
 

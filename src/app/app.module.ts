@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { provideHttpClient } from '@angular/common/http';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
     provideHttpClient(),
-    InAppBrowser],
+    InAppBrowser,
+    SocialSharing],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
