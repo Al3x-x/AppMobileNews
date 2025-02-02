@@ -1,7 +1,21 @@
 <ion-card>
   <ion-card-subtitle class="ion-margin"> <!-- ion-margin es una clase de ionic que sirve para darle margen a los elementos -->
-    <span class="text-primary">{{ index }}. </span>
-    <span class="article-source-name">{{ article.source.name }}</span>
+
+    <ion-row class="ion-align-items-center"> <!-- ion-align-items-center es una clase de ionic que sirve para alinear los elementos verticalmente -->
+      
+      <ion-col class="ion-margin" (click)="openArticle()">
+        <span class="text-primary">{{ index }}. </span>
+        <span class="article-source-name">{{ article.source.name }}</span>
+      </ion-col>
+      
+      <ion-col align="right">
+        <ion-button (click)="onOpenMenu()" fill="clear">
+          <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+
   </ion-card-subtitle>
 
   <ion-card-title class="ion-padding-horizontal ion-margin-bottom"> <!-- ion-padding-horizontal es una clase de ionic que sirve para darle padding horizontal a los elementos y el ion-margin-bottom le da un pequenio margen abajo -->
@@ -10,9 +24,10 @@
 
   <ion-img 
     *ngIf="article.urlToImage" 
-    [src]="article.urlToImage"> <!-- *ngIf es una directiva de angular que sirve para mostrar un elemento si se cumple una condicion, en este caso si el articulo tiene una imagen se va a visualizar o sino que no aparezca -->
-  </ion-img>
-
+    [src]="article.urlToImage"
+    (click)="openArticle()"
+  ></ion-img> <!-- (click) es un evento de angular que se dispara cuando se hace click en un elemento, en este caso cuando se hace click en la imagen se va a ejecutar la funcion openArticle() -->
+  
   <ion-card-content 
    *ngIf="article.description"> <!-- *ngIf es una directiva de angular que sirve para mostrar un elemento si se cumple una condicion, en este caso si el articulo tiene una descripcion se va a visualizar o sino que no aparezca -->
     <p>{{ article.description }}</p> 

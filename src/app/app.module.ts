@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 
 import { provideHttpClient } from '@angular/common/http';
 
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -16,7 +18,9 @@ import { provideHttpClient } from '@angular/common/http';
     IonicModule.forRoot(), 
     AppRoutingModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient()],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
+    provideHttpClient(),
+    InAppBrowser],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

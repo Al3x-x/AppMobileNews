@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Article } from '../../interfaces';
 
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { ActionSheetController, IonicModule } from '@ionic/angular';
+
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-article',
@@ -14,13 +16,61 @@ import { IonicModule } from '@ionic/angular';
     IonicModule,
   ],
 })
-export class ArticleComponent  implements OnInit {
+export class ArticleComponent {
 
   @Input() article!: Article; // Colocamos el signo de exclamación para indicar que el valor no será nulo y que siempre estará presente
   @Input() index!: number;
 
-  constructor() { }
+  constructor( 
+    private iab: InAppBrowser,
+    private actionSheetCtrl: ActionSheetController
+  ) { }
 
-  ngOnInit() {}
+  openArticle() {
+
+    const browser = this.iab.create( this.article.url );
+    browser.show();
+
+  }
+
+  async onOpenMenu() {
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Opciones',
+      buttons: [
+        {
+          text: 'Compartir',
+          icon: 'share-social',
+          handler: () => this.onShareArticle()
+        },
+        {
+          text: 'Favorito',
+          icon: 'heart-outline',
+          handler: () => this.onToggleFavorite()
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close-outline',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }
+      ] 
+    }); 
+
+    await actionSheet.present();
+
+  }
+
+  onShareArticle() {
+
+    console.log('Share article');
+
+  }
+
+  onToggleFavorite() {
+
+    console.log('Toggle favorite');
+
+  }
 
 }
