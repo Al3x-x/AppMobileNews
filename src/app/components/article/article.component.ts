@@ -40,6 +40,11 @@ export class ArticleComponent {
 
     const normalBtns: ActionSheetButton[] = [
       {
+        text: 'Compartir',
+        icon: 'share-social',
+        handler: () => this.onShareArticle()
+      },
+      {
         text: 'Favorito',
         icon: 'heart-outline',
         handler: () => this.onToggleFavorite()
@@ -52,15 +57,15 @@ export class ArticleComponent {
       }
     ];
 
-    const share: ActionSheetButton = {
-      text: 'Compartir',
-      icon: 'share-social',
-      handler: () => this.onShareArticle()
-    }
+    // const shareBtn: ActionSheetButton = {
+    //   text: 'Compartir',
+    //   icon: 'share-social',
+    //   handler: () => this.onShareArticle()
+    // }
 
-    if ( this.platform.is('capacitor') ) {
-      normalBtns.unshift(share);
-    }
+    // if ( this.platform.is('capacitor') ) {
+    //   normalBtns.unshift(shareBtn);
+    // }
 
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Opciones',
